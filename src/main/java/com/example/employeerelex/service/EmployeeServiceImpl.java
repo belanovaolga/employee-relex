@@ -1,6 +1,5 @@
 package com.example.employeerelex.service;
 
-import com.example.employeerelex.dto.EmployeeCreateDto;
 import com.example.employeerelex.entity.EmployeeEntity;
 import com.example.employeerelex.entity.Role;
 import com.example.employeerelex.repository.EmployeeRepository;
@@ -12,18 +11,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService{
     private final EmployeeRepository employeeRepository;
-
-    /*@Override
-    public EmployeeEntity createEmployee(EmployeeCreateDto employeeEntity) {
-        EmployeeEntity employee = EmployeeEntity.builder()
-                .userName(employeeEntity.getUserName())
-                .password(employeeEntity.getPassword())
-                .email(employeeEntity.getEmail())
-                .role(Role.ADMIN)
-                .build();
-
-        return employeeRepository.save(employee);
-    }*/
 
     public UserDetailsService userDetailsService() {
         return this::getByUsername;
@@ -37,7 +24,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public void getAdmin(
+    public void updateRole(
             Long employeeId
     ) {
         EmployeeEntity employee = getByEmployeeId(employeeId);

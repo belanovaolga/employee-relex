@@ -1,10 +1,11 @@
 package com.example.employeerelex.controller;
 
-import com.example.employeerelex.dto.EmployeeCreateDto;
+import com.example.employeerelex.dto.EmployeeDto;
+import com.example.employeerelex.dto.IdDto;
 import com.example.employeerelex.entity.EmployeeEntity;
+import com.example.employeerelex.service.AuthenticationService;
 import com.example.employeerelex.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,43 +13,42 @@ import org.springframework.web.bind.annotation.*;
 public class EmployeeController {
     private final EmployeeService employeeService;
 
+    private final AuthenticationService authenticationService;
+
     /**
-     * создание и добавление нового сотрудника в базу данных
+     * создание нового сотрудника
      * @param employeeEntity данные, необходимые для создания нового сотрудника(
-     *                    имя сотрудника,
-     *                    фамилия сотрудника,
-     *                    почта)
+     *                       имя сотрудника,
+     *                       почта сотрудника,
+     *                       пароль)
      * @return созданный сотрудник
      */
-    /*@PostMapping("/createEmployee")
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/create-employee")
     public EmployeeEntity createEmployee(
-            @RequestBody EmployeeCreateDto employeeEntity
-            ) {
-        return employeeService.createEmployee(employeeEntity);
-    }*/
+            @RequestBody EmployeeDto employeeEntity
+    ) {
+        return authenticationService.createEmployee(employeeEntity);
+    }
 
     /**
      * удаление сотрудника из базы данных
-     * @param employeeId идентификационный номер сотрудника
+     * @param idDto данные, необходимые для поиска сотрудника (идентификационный номер)
      */
-    @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/deleteEmployee/{employeeId}")
+    @DeleteMapping("/delete-employee")
     public void deleteEmployee(
-            @PathVariable Long employeeId
-    ) {
-        employeeService.deleteEmployee(employeeId);
+            @RequestBody IdDto idDto
+            ) {
+        employeeService.deleteEmployee(idDto.getEmployeeId());
     }
 
     /**
      * выдача прав администратора сотруднику
-     * @param employeeId идентификационный номер пользователя
+     * @param idDto данные, необходимые для поиска сотрудника (идентификационный номер)
      */
-    @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/updateRole/getAdmin/{employeeId}")
-    public void getAdmin(
-            @PathVariable Long employeeId
+    @PutMapping("/update-role")
+    public void updateRole(
+            @RequestBody IdDto idDto
     ) {
-        employeeService.getAdmin(employeeId);
+        employeeService.updateRole(idDto.getEmployeeId());
     }
 }

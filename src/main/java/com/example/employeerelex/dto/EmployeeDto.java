@@ -13,7 +13,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmployeeCreateDto {
+public class EmployeeDto {
     @Size(max = 50)
     @NotBlank
     private String userName;

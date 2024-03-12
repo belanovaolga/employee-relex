@@ -43,7 +43,7 @@ public class SecurityConfiguration {
                 }))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/createEmployee", "/deleteEmployee", "/updateRole").hasRole("ADMIN")
+                        .requestMatchers("/create-employee/", "/delete-employee/", "/update-role/").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())
