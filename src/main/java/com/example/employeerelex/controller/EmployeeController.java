@@ -6,6 +6,7 @@ import com.example.employeerelex.entity.EmployeeEntity;
 import com.example.employeerelex.service.AuthenticationService;
 import com.example.employeerelex.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -49,6 +50,6 @@ public class EmployeeController {
     public void updateRole(
             @RequestBody IdDto idDto
     ) {
-        employeeService.updateRole(idDto.getEmployeeId());
+        employeeService.updateRole(idDto);
     }
 }

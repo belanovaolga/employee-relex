@@ -1,10 +1,12 @@
 package com.example.employeerelex.service;
 
+import com.example.employeerelex.dto.IdDto;
 import com.example.employeerelex.entity.EmployeeEntity;
 import com.example.employeerelex.entity.Role;
 import com.example.employeerelex.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,10 +27,10 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public void updateRole(
-            Long employeeId
+            IdDto idDto
     ) {
-        EmployeeEntity employee = getByEmployeeId(employeeId);
-        employee.setRole(Role.ADMIN);
+        EmployeeEntity employee = getByEmployeeId(idDto.getEmployeeId());
+        employee.setRole(idDto.getRole());
         employeeRepository.save(employee);
     }
 
@@ -37,7 +39,8 @@ public class EmployeeServiceImpl implements EmployeeService{
      * @return пользователь
      */
     public EmployeeEntity getByUsername(String username) {
-        return employeeRepository.findByUserName(username).orElse(null);
+        return employeeRepository.findByUserName(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
     }
 
     /**
@@ -45,6 +48,7 @@ public class EmployeeServiceImpl implements EmployeeService{
      * @return пользователь
      */
     public EmployeeEntity getByEmployeeId(Long employeeId) {
-        return employeeRepository.findByEmployeeId(employeeId).orElse(null);
+        return employeeRepository.findByEmployeeId(employeeId)
+                .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
     }
 }

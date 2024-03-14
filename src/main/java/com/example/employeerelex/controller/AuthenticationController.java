@@ -21,7 +21,7 @@ public class AuthenticationController {
      *      *                    пароль сотрудника)
      * @return токен
      */
-    @PostMapping("auth/sign-in")
+    @PostMapping("/auth/sign-in")
     public JwtAuthenticationResponse signIn(@RequestBody EmployeeSingInDto employeeSingIn) {
         return authenticationService.singIn(employeeSingIn);
     }
